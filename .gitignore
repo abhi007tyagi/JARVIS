@@ -3,6 +3,8 @@
 *.pyc
 *.pickle
 
+
 # folder
 pickled/
 __pycache__/
+.idea/
