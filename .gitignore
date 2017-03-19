@@ -1,0 +1,8 @@
+
+# application files
+*.pyc
+*.pickle
+
+# folder
+pickled/
+__pycache__/
