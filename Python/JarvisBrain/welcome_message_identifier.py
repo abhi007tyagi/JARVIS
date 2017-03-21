@@ -7,10 +7,10 @@ def get_greeting(text):
     tokenized = nltk.word_tokenize(text)
 
     stop_words = set(stopwords.words("english"))
-    # filtered_text = [w for w in tokenized if not w in stop_words]
-    # print("fitered text -> ", filtered_text)
+    filtered_text = [w for w in tokenized if not w in stop_words]
+    print("fitered text -> ", filtered_text)
 
     #  tag the filtered words
-    tags = nltk.pos_tag(tokenized)
+    tags = nltk.pos_tag(filtered_text)
     print("fitered tags -> ", tags)
 
