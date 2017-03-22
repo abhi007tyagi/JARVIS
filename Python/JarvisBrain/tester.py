@@ -16,7 +16,8 @@ import classifier
 # print(classifier.classify("its dark in here"))
 # print(classifier.classify("hey man, What's your name"))
 print(classifier.classify("hey man, I am Abhinav Tyagi"))
-print(classifier.classify("Yo! I am Sachin"))
+print(classifier.classify("Yo! we are Indians"))
+print(classifier.classify("I am Jack"))
 
 
 # print(math_cal.get_math_evaluation("what is three multiplied to 4"))

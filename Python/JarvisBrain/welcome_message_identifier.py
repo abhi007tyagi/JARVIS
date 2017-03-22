@@ -2,11 +2,11 @@ import nltk
 
 
 def get_welcome_msg(text, chunked_data):
-    p0 = ["hi", "hello", "hey"]
+    p0 = ["hi", "hello", "hey", "yo"]
     p1 = ["how", "how’ve", "what's up", "doing"]
     p2 = ["good to see you", "nice to see you"]
     p3 = ["your name", "who's there", "who are you", "your name"]
-    p4 = ["i am"]
+    p4 = ["i am", "we are"]
     result = ""
     for w in p0:
         if w in text:
@@ -32,11 +32,13 @@ def get_welcome_msg(text, chunked_data):
                 for l in subtree.leaves():
                     name += str(l[0]) + " "
                 print(name)
-                break
+                # break
 
+            if "Hello" not in result:
+                result = "Hello"
             print(len(name))
             if len(name) > 2:
-                result += " " + name + "! I am Jarvis."
+                result += " " + name[:-1] + "! I am Jarvis."
             else:
                 result += " I am Jarvis."
             break
@@ -59,7 +61,7 @@ def get_greeting(text):
 
     tokenized = nltk.word_tokenize(text)
     tags = nltk.pos_tag(tokenized)
-    chunk_pattern = r""" Chunk: {(<NNP>)<NNP>} """
+    chunk_pattern = r""" Chunk: {<NNP.?|NNPS.?>} """
     chunk_parser = nltk.RegexpParser(chunk_pattern)
     chunked_data = chunk_parser.parse(tags)
     print(chunked_data)
