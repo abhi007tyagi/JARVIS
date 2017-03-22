@@ -13,8 +13,10 @@ import classifier
 # print(j.get_context("how's today's weather"))
 # print(j.get_context("hey, add three to 4"))
 # print(j.get_context("what is three multiplied to 4"))
-print(classifier.classify("its dark in here"))
-
+# print(classifier.classify("its dark in here"))
+# print(classifier.classify("hey man, What's your name"))
+print(classifier.classify("hey man, I am Abhinav Tyagi"))
+print(classifier.classify("Yo! I am Sachin"))
 
 
 # print(math_cal.get_math_evaluation("what is three multiplied to 4"))

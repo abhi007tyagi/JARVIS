@@ -83,8 +83,8 @@ save_featureset.close()
 
 print("Feature-set created of length ->", len(featuresets))
 
-training_set = featuresets[:165]
-testing_set = featuresets[165:]
+training_set = featuresets[:175]
+testing_set = featuresets[175:]
 
 print("Starting training different algorithms...")
 

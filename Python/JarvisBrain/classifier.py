@@ -1,6 +1,7 @@
 import jarvis as j
 import math_expression_calculator as mth
 import command_identifier as cmd
+import welcome_message_identifier as wel
 
 
 def classify(text):
@@ -9,7 +10,7 @@ def classify(text):
     if context[0] == 'mth' and context[1] >= 0.6:
         return mth.get_math_evaluation(text)
     elif context[0] == 'wel' and context[1] >= 0.6:
-        return "Hello! I am Jarvis."
+        return wel.get_greeting(text)
     elif context[0] == 'cmd' and context[1] >= 0.6:
         cmd.get_command(text)
         return "Ok! I will do it."
