@@ -47,28 +47,32 @@ def find_features(document):
     return features
 
 
-open_file = open("pickled/originalnaivebayes5k.pickle", "rb")
+open_file = open("pickled/originalnaivebayes.pickle", "rb")
 classifier = pickle.load(open_file)
 open_file.close()
 
-open_file = open("pickled/MNB_classifier5k.pickle", "rb")
+open_file = open("pickled/MNB_classifier.pickle", "rb")
 MNB_classifier = pickle.load(open_file)
 open_file.close()
 
-open_file = open("pickled/BernoulliNB_classifier5k.pickle", "rb")
+open_file = open("pickled/BernoulliNB_classifier.pickle", "rb")
 BernoulliNB_classifier = pickle.load(open_file)
 open_file.close()
 
-open_file = open("pickled/LogisticRegression_classifier5k.pickle", "rb")
+open_file = open("pickled/LogisticRegression_classifier.pickle", "rb")
 LogisticRegression_classifier = pickle.load(open_file)
 open_file.close()
 
-open_file = open("pickled/LinearSVC_classifier5k.pickle", "rb")
+open_file = open("pickled/LinearSVC_classifier.pickle", "rb")
 LinearSVC_classifier = pickle.load(open_file)
 open_file.close()
 
-open_file = open("pickled/SGDC_classifier5k.pickle", "rb")
+open_file = open("pickled/SGDC_classifier.pickle", "rb")
 SGDC_classifier = pickle.load(open_file)
+open_file.close()
+
+open_file = open("pickled/NuSVC_classifier.pickle", "rb")
+NuSVC_classifier = pickle.load(open_file)
 open_file.close()
 
 custom_classifier = CustomClassifier(
@@ -76,7 +80,9 @@ custom_classifier = CustomClassifier(
     LinearSVC_classifier,
     MNB_classifier,
     BernoulliNB_classifier,
-    LogisticRegression_classifier)
+    LogisticRegression_classifier,
+    SGDC_classifier,
+    NuSVC_classifier)
 
 
 def get_context(text):

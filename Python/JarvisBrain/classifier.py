@@ -14,3 +14,5 @@ def classify(text):
     elif context[0] == 'cmd' and context[1] >= 0.6:
         cmd.get_command(text)
         return "Ok! I will do it."
+    elif context[0] == 'rand':
+        return "random"

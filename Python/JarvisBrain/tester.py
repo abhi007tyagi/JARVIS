@@ -6,18 +6,34 @@ import inflect
 import text2num
 import classifier
 
-# print(j.get_context("hello"))
-# print(j.get_context("hi"))
-# print(j.get_context("hey! can you move up the ladder?"))
-# print(j.get_context("hey, how are you today?"))
-# print(j.get_context("how's today's weather"))
-# print(j.get_context("hey, add three to 4"))
-# print(j.get_context("what is three multiplied to 4"))
+# print("1 -> wel", j.get_context("hello"))
+# print("2 -> wel", j.get_context("hi"))
+# print("3 -> cmd", j.get_context("hey! can you move up the ladder?"))
+# print("4 -> wel", j.get_context("hey, how are you today?"))
+# print("5 -> rand", j.get_context("how's today's weather"))
+# print("6 -> mth", j.get_context("hey, add three to 4"))
+# print("7 -> mth", j.get_context("what is the result for 7 multiplied by 6"))
+# print("8 -> cmd", j.get_context("its dark in here"))
+# print("9 -> wel", j.get_context("hey man, What's your name"))
+# print("10 -> wel", j.get_context("I am Abhinav Tyagi. who are you?"))
+# print("11 -> wel", j.get_context("Yo! we are Indians"))
+# print("12 -> wel", j.get_context("I am Jack"))
+# print("13 -> rand", j.get_context("in India, where are dessert?")) #failed
+# print("14 -> rand", j.get_context("where was typewriter invented"))
+# print("15 -> cmd", j.get_context("please play a song for me"))
+# print("16 -> mth", j.get_context("please calculate 3*4/2-1"))
+# print("17 -> cmd", j.get_context("turn the rover to right"))
+# print("18 -> mth", j.get_context("what is 3 + 6 - 8 * 2 + 3 / 6"))
+# print("19 -> rand", j.get_context("where is Atlanta?"))
+# print("20 -> cmd", j.get_context("hey, please turn the volume down"))
+# print("21 -> rand", j.get_context("who are mammals"))
+
+
 # print(classifier.classify("its dark in here"))
 # print(classifier.classify("hey man, What's your name"))
-print(classifier.classify("hey man, I am Abhinav Tyagi"))
-print(classifier.classify("Yo! we are Indians"))
-print(classifier.classify("I am Jack"))
+# print(classifier.classify("hey man, I am Abhinav Tyagi"))
+# print(classifier.classify("Yo! we are Indians"))
+# print(classifier.classify("I am Jack"))
 
 
 # print(math_cal.get_math_evaluation("what is three multiplied to 4"))
@@ -92,22 +108,3 @@ print(classifier.classify("I am Jack"))
 # print("#############################  5")
 # print(math_cal.get_math_evaluation("what is twelve billion divided by 1000 x 2 minus 100000")) # FAILED CASE
 # print("#############################")
-
-
-
-# text = "multiply 1 to 2 minus 6 plus 10 multiplied by 2 divided by 4"
-# text = "1/2+3-4="
-# exp = "1*2-6+10*2/4"
-# p = inflect.engine()
-# print(p.number_to_words(99))
-#
-# print(text2num.text2num("eight"))
-#
-# tokenized = nltk.word_tokenize(text)
-# tags = nltk.pos_tag(tokenized)
-# print(tags)
-# print(str(eval(exp)))
-
-# text = "asix3b"
-#
-# print(re.search("[0-9][\*+-/xX][0-9]", text))
