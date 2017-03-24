@@ -1,5 +1,4 @@
 import nltk
-from nltk.corpus import stopwords
 
 
 def execute_lamp_cmd(tags):
@@ -7,8 +6,12 @@ def execute_lamp_cmd(tags):
     for word in tags:
         if word[0] in ["on", "ON", "On", "dark", "not visible", "not bright"]:
             print("LAMP ON")
+            return "LAMP ON"
         elif word[0] in ["off", "OFF", "Off", "bright"]:
             print("LAMP OFF")
+            return "LAMP OFF"
+        else:
+            return ""
 
 
 def execute_car_cmd(tags):
@@ -16,14 +19,21 @@ def execute_car_cmd(tags):
     for word in tags:
         if word[0] in ["forward", "up", "ON", "on"]:
             print("FORWARD")
+            return "FORWARD"
         elif word[0] in ["backward", "down"]:
             print("BACKWARD")
+            return "BACKWARD"
         elif word[0] in ["left"]:
             print("LEFT")
+            return "LEFT"
         elif word[0] in ["right"]:
             print("RIGHT")
+            return "RIGHT"
         elif word[0] in ["stop", "off", "OFF", "halt"]:
             print("STOP")
+            return "STOP"
+        else:
+            return ""
 
 
 def execute_song_cmd(tags):
@@ -31,35 +41,41 @@ def execute_song_cmd(tags):
     for word in tags:
         if word[0] in ["play"]:
             print("PLAY")
+            return "PLAY"
         elif word[0] in ["up", "high", "higher"]:
             print("VOLUME UP")
+            return "VOLUME UP"
         elif word[0] in ["down", "low", "lower"]:
             print("VOLUME DOWN")
+            return "VOLUME DOWN"
         elif word[0] in ["stop", "off", "OFF", "halt"]:
             print("STOP PLAYING")
+            return "STOP PLAYING"
+        else:
+            return ""
 
 
 def extract_cmd(tags):
     print("executing cmd ->", tags)
     for word in tags:
         if word[0] in ["dark", "lamp", "light", "bright"]:
-            execute_lamp_cmd(tags)
+            return execute_lamp_cmd(tags)
         elif word[0] in ["robot", "car", "bot", "move", "rover"]:
-            execute_car_cmd(tags)
+            return execute_car_cmd(tags)
         elif word[0] in ["play", "song", "listen", "listening", "music", "volume"]:
-            execute_song_cmd(tags)
+            return execute_song_cmd(tags)
 
 
 def get_command(text):
     # tokenize and remove stop words
     tokenized = nltk.word_tokenize(text)
 
-    stop_words = set(stopwords.words("english"))
+    # stop_words = set(stopwords.words("english"))
     # filtered_text = [w for w in tokenized if not w in stop_words]
     # print("fitered text -> ", filtered_text)
 
     #  tag the filtered words
     tags = nltk.pos_tag(tokenized)
-    print("fitered tags -> ", tags)
+    print("filtered tags -> ", tags)
 
-    extract_cmd(tags)
+    return extract_cmd(tags)

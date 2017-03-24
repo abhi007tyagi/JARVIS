@@ -286,7 +286,7 @@ def get_math_evaluation(text):
             print(chunked_data)
 
             exp = get_exp(chunked_data)
-            result = "Can't extract expression!"
+            result = ""
             if len(exp) >= 2:
                 try:
                     expression = check_word_action(exp)

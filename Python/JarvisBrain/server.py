@@ -64,12 +64,13 @@ def jarvis():
     text = input_request['query']
     result = ""
     try:
-        result = classifier.classify(text)
+        result, typ = classifier.classify(text)
     except Exception as e:
         print("error -> ", e.args)
         result = e
     return jsonify(
-            response=result
+            response=result,
+            type=typ
         )
 
 

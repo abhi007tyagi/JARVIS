@@ -26,7 +26,7 @@ import classifier
 # print("18 -> mth", j.get_context("what is 3 + 6 - 8 * 2 + 3 / 6"))
 # print("19 -> rand", j.get_context("where is Atlanta?"))
 # print("20 -> cmd", j.get_context("hey, please turn the volume down"))
-# print("21 -> rand", j.get_context("who are mammals"))
+# print("21 -> rand", j.get_context("who are mammals")) #failed
 
 
 # print(classifier.classify("its dark in here"))
@@ -34,6 +34,7 @@ import classifier
 # print(classifier.classify("hey man, I am Abhinav Tyagi"))
 # print(classifier.classify("Yo! we are Indians"))
 # print(classifier.classify("I am Jack"))
+print(classifier.classify("in India, where are dessert?"))
 
 
 # print(math_cal.get_math_evaluation("what is three multiplied to 4"))
