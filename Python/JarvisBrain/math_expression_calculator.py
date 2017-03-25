@@ -99,8 +99,8 @@ def extract_direct_math_expressions(tags):
                 isSubtract = False
             else:
                 exp += stack.pop()
-
-        counter += 1
+        if word[0] in ["*", "x", "X", "/", "+", "-", "add", "subtract", "multiply", "divide", "added", "subtracted", "multiplied", "divided"]:
+            counter += 1
 
     print("exp 2 -> ", exp)
     return str(eval(exp))

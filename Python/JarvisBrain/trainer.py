@@ -47,13 +47,13 @@ for mth in maths.split("\n"):
         if w[1][0] in allowed_word_types:
             all_words.append(w[0].lower())
 
-for rand in random_things.split("\n"):
-    documents.append((rand, "rand"))
-    words = word_tokenize(rand)
-    pos = nltk.pos_tag(words)
-    for w in pos:
-        if w[1][0] in allowed_word_types:
-            all_words.append(w[0].lower())
+# for rand in random_things.split("\n"):
+#     documents.append((rand, "rand"))
+#     words = word_tokenize(rand)
+#     pos = nltk.pos_tag(words)
+#     for w in pos:
+#         if w[1][0] in allowed_word_types:
+#             all_words.append(w[0].lower())
 
 print("Saving documents...")
 
@@ -93,8 +93,8 @@ save_featureset.close()
 
 print("Feature-set created of length ->", len(featuresets))
 
-training_set = featuresets[:210]
-testing_set = featuresets[210:]
+training_set = featuresets[:175]
+testing_set = featuresets[175:]
 
 print("Starting training different algorithms...")
 

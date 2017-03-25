@@ -3,7 +3,62 @@ from nltk.corpus import stopwords
 import requests
 
 
-def get_web_result(text):
+def process_json(json, query, typ):
+    print("result json-> ", json)
+
+    result = get_answer(json)
+    if len(result) > 0:
+        result = "Here's what I have found about " + query[:-1] + "! " + result
+    else:
+        result = get_definition(json)
+        if len(result) > 0:
+            result = "Here's what I have found about " + query[:-1] + "! " + result
+        else:
+            result = get_abstract(json)
+            if len(result) > 0:
+                result = "Here's what I have found about " + query[:-1] + "! " + result
+            else:
+                result = get_text(json)
+                if len(result) > 0:
+                    result = "Here's what I have found about " + query[:-1] + "! " + result
+                elif typ == 'mth':
+                    result = "Can't evaluate expression."
+                else:
+                    result = "Sorry! I couldn't find anything around " + query[:-1]
+    
+    return result
+
+
+def get_answer(json):
+    try:
+        return json['Answer']
+    except:
+        return ""
+
+
+def get_definition(json):
+    try:
+        return json['Definition']
+    except:
+        return ""
+
+
+def get_abstract(json):
+    try:
+        return json['Abstract']
+    except:
+        return ""
+
+
+def get_text(json, query):
+    try:
+        return json['RelatedTopics'][0]['Text']
+    except:
+        return ""
+
+
+
+def get_web_result(text, typ):
     # tokenize and remove stop words
     tokenized = nltk.word_tokenize(text)
 
@@ -29,11 +84,5 @@ def get_web_result(text):
     resp = requests.get(url_endpoint, params=param, headers=headers)
     print("resp -> ", resp)
     result_json = resp.json()
-    print("result json-> ", result_json)
-    try:
-        result = result_json['RelatedTopics'][0]['Text']
-        result = "Here's what I have found about " + query[:-1] + "! " + result
-    except:
-        result = "Sorry! I couldn't find anything around " + query[:-1]
-    print("result -> ", result)
-    return result
+
+    return process_json(result_json, query, typ)

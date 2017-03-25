@@ -15,14 +15,15 @@ def classify(text):
             return result, "mth"
         else:
             # do random ?
-            return "Can't evaluate expression", "mth"
+            result = rand_web.get_web_result(text, "mth")
+            return result, "mth"
     elif context[0] == 'wel' and context[1] >= 0.55:
         result = wel.get_greeting(text)
         if len(result) > 0:
             return result, "wel"
         else:
             # do random
-            result = rand_web.get_web_result(text)
+            result = rand_web.get_web_result(text, "wel")
             return result, "wel"
     elif context[0] == 'cmd' and context[1] >= 0.55:
         result = cmd.get_command(text)
@@ -30,8 +31,8 @@ def classify(text):
             return result, "cmd"
         else:
             # do random
-            result = rand_web.get_web_result(text)
+            result = rand_web.get_web_result(text, "cmd")
             return result, "cmd"
-    elif context[0] == 'rand':
-        result = rand_web.get_web_result(text)
+    else:  # context[0] == 'rand':
+        result = rand_web.get_web_result(text, "rand")
         return result, "rand"
