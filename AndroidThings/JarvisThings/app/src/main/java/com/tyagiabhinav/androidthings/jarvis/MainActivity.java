@@ -33,22 +33,43 @@ import com.google.android.things.pio.Gpio;
 import com.google.android.things.pio.GpioCallback;
 import com.google.android.things.pio.PeripheralManagerService;
 
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class MainActivity extends Activity  implements TextToSpeech.OnInitListener {
+public class MainActivity extends Activity  implements TextToSpeech.OnInitListener, MqttCallback {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int SPEECH_INPUT = 27;
     public static final String BTN_PIN = "BCM17"; //physical pin #11 for speech initiation switch
+    public static final String MOTOR_A_1_PIN = "BCM21"; //physical pin #40 for motor control
+    public static final String MOTOR_A_2_PIN = "BCM20"; //physical pin #38 for motor control
+    public static final String MOTOR_B_1_PIN = "BCM24"; //physical pin #18 for motor control
+    public static final String MOTOR_B_2_PIN = "BCM23"; //physical pin #16 for motor control
+
     private boolean isListening = false; // to stop bouncing of physical switch
 
     private TextToSpeech tts;
 
+    // for on board mic ON-OFF
     private Gpio mBtnGpio;
+
+    // for motor control of rover
+    private Gpio motorAPin1;
+    private Gpio motorAPin2;
+    private Gpio motorBPin1;
+    private Gpio motorBPin2;
+
+    private MqttClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +77,19 @@ public class MainActivity extends Activity  implements TextToSpeech.OnInitListen
         Log.d(TAG, "onCreate");
 
         tts = new TextToSpeech(this, this);
+        try {
+            client = new MqttClient("tcp://192.168.1.7:1883", "AndroidThingSub", new MemoryPersistence());
+            client.setCallback(this);
+            client.connect();
+
+            String topic = "topic/rover";
+            client.subscribe(topic);
+
+            client.publish("topic/lamp", new MqttMessage("LAMP ON".getBytes()));
+
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
 
         PeripheralManagerService service = new PeripheralManagerService();
         try {
@@ -67,6 +101,28 @@ public class MainActivity extends Activity  implements TextToSpeech.OnInitListen
             mBtnGpio.setEdgeTriggerType(Gpio.EDGE_RISING);
             // Register an event callback.
             mBtnGpio.registerGpioCallback(mMotorCallback);
+
+
+            // for rover motor control
+            // Create GPIO connection for Motor A Pin 1.
+            motorAPin1 = service.openGpio(MOTOR_A_1_PIN);
+            // Configure as an output.
+            motorAPin1.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
+
+            // Create GPIO connection for Motor A Pin 2.
+            motorAPin2 = service.openGpio(MOTOR_A_2_PIN);
+            // Configure as an output.
+            motorAPin2.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
+
+            // Create GPIO connection for Motor B Pin 1.
+            motorBPin1 = service.openGpio(MOTOR_B_1_PIN);
+            // Configure as an output.
+            motorBPin1.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
+
+            // Create GPIO connection for Motor B Pin 2.
+            motorBPin2 = service.openGpio(MOTOR_B_2_PIN);
+            // Configure as an output.
+            motorBPin2.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
 
         } catch (IOException e) {
             Log.e(TAG, "Error on PeripheralIO API", e);
@@ -178,9 +234,40 @@ public class MainActivity extends Activity  implements TextToSpeech.OnInitListen
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
-                        Log.d(TAG, "onResponse: "+response.getString("response"));
-                        speak(response.getString("response"));
-                    } catch (JSONException e) {
+                        String resp = response.getString("response");
+                        String type = response.getString("type");
+                        Log.d(TAG, "onResponse: " + resp + " -- " + type);
+                        switch (type){
+                            case "cmd":
+                                if(client != null){
+
+                                    switch (resp){
+                                        case "LAMP ON":
+                                            client.publish("topic/lamp", new MqttMessage("ON".getBytes("UTF-8")));
+                                            break;
+                                        case "LAMP OFF":
+                                            client.publish("topic/lamp", new MqttMessage("OFF".getBytes("UTF-8")));
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                                break;
+                            case "mth":
+                            case "wel":
+                                speak(resp);
+                                break;
+                            case "err":
+                            default:
+                                speak("Something went wrong. Please try again later!");
+                                break;
+                        }
+                        if (type.equalsIgnoreCase("err")) {
+                            speak("Something went wrong. Please try again later!");
+                        } else {
+                            speak(resp);
+                        }
+                    } catch (JSONException | MqttException | UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
                 }
@@ -198,5 +285,65 @@ public class MainActivity extends Activity  implements TextToSpeech.OnInitListen
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void connectionLost(Throwable cause) {
+        Log.d(TAG, "connectionLost....");
+    }
+
+    @Override
+    public void messageArrived(String topic, MqttMessage message) throws Exception {
+        String payload = new String(message.getPayload());
+        Log.d(TAG, "message received --> "+payload);
+        switch (payload) {
+            case "FWD":
+                Log.d(TAG, "Rover Forward");
+                motorAPin1.setValue(true);
+                motorAPin2.setValue(false);
+                motorBPin1.setValue(false);
+                motorBPin2.setValue(true);
+                break;
+            case "BWD":
+                Log.d(TAG, "Rover Backward");
+                motorAPin1.setValue(false);
+                motorAPin2.setValue(true);
+                motorBPin1.setValue(true);
+                motorBPin2.setValue(false);
+                break;
+            case "LFT":
+                Log.d(TAG, "Rover Left");
+                motorAPin1.setValue(true);
+                motorAPin2.setValue(false);
+                motorBPin1.setValue(false);
+                motorBPin2.setValue(false);
+                break;
+            case "RGT":
+                Log.d(TAG, "Rover Right");
+                motorAPin1.setValue(false);
+                motorAPin2.setValue(false);
+                motorBPin1.setValue(false);
+                motorBPin2.setValue(true);
+                break;
+            case "STP":
+                Log.d(TAG, "Rover Stop");
+                motorAPin1.setValue(false);
+                motorAPin2.setValue(false);
+                motorBPin1.setValue(false);
+                motorBPin2.setValue(false);
+                break;
+            default:
+                Log.d(TAG, "Message not supported!");
+                motorAPin1.setValue(false);
+                motorAPin2.setValue(false);
+                motorBPin1.setValue(false);
+                motorBPin2.setValue(false);
+                break;
+        }
+    }
+
+    @Override
+    public void deliveryComplete(IMqttDeliveryToken token) {
+        Log.d(TAG, "deliveryComplete....");
     }
 }

@@ -25,7 +25,7 @@ def process_json(json, query, typ):
                     result = "Can't evaluate expression."
                 else:
                     result = "Sorry! I couldn't find anything around " + query[:-1]
-    
+
     return result
 
 
@@ -50,7 +50,7 @@ def get_abstract(json):
         return ""
 
 
-def get_text(json, query):
+def get_text(json):
     try:
         return json['RelatedTopics'][0]['Text']
     except:

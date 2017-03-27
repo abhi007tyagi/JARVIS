@@ -35,7 +35,9 @@ import classifier
 # print(classifier.classify("Yo! we are Indians"))
 # print(classifier.classify("I am Jack"))
 # print(classifier.classify("in India, where are dessert?"))
-print(classifier.classify("please turn on the lights"))
+# print(classifier.classify("please turn on the lights"))
+
+print(classifier.classify("Uttar Pradesh"))
 
 
 # print(math_cal.get_math_evaluation("what is three multiplied to 4"))
