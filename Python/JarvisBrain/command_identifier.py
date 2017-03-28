@@ -19,7 +19,7 @@ def execute_car_cmd(tags):
         if word[0] in ["forward", "up", "ON", "on"]:
             print("FORWARD")
             return "FORWARD"
-        elif word[0] in ["backward", "down"]:
+        elif word[0] in ["backward", "backwards", "down"]:
             print("BACKWARD")
             return "BACKWARD"
         elif word[0] in ["left"]:

@@ -43,18 +43,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class MainActivity extends Activity  implements TextToSpeech.OnInitListener, MqttCallback {
+public class MainActivity extends Activity implements TextToSpeech.OnInitListener, MqttCallback {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int SPEECH_INPUT = 27;
     public static final String BTN_PIN = "BCM17"; //physical pin #11 for speech initiation switch
-    public static final String MOTOR_A_1_PIN = "BCM21"; //physical pin #40 for motor control
-    public static final String MOTOR_A_2_PIN = "BCM20"; //physical pin #38 for motor control
-    public static final String MOTOR_B_1_PIN = "BCM24"; //physical pin #18 for motor control
-    public static final String MOTOR_B_2_PIN = "BCM23"; //physical pin #16 for motor control
+    public static final String ROVER_1_PIN = "BCM21"; //physical pin #40 for motor control
+    public static final String ROVER_2_PIN = "BCM20"; //physical pin #38 for motor control
+    public static final String ROVER_3_PIN = "BCM24"; //physical pin #18 for motor control
 
     private boolean isListening = false; // to stop bouncing of physical switch
 
@@ -64,10 +62,9 @@ public class MainActivity extends Activity  implements TextToSpeech.OnInitListen
     private Gpio mBtnGpio;
 
     // for motor control of rover
-    private Gpio motorAPin1;
-    private Gpio motorAPin2;
-    private Gpio motorBPin1;
-    private Gpio motorBPin2;
+    private Gpio roverPin1;
+    private Gpio roverPin2;
+    private Gpio roverPin3;
 
     private MqttClient client;
 
@@ -78,14 +75,12 @@ public class MainActivity extends Activity  implements TextToSpeech.OnInitListen
 
         tts = new TextToSpeech(this, this);
         try {
-            client = new MqttClient("tcp://192.168.1.7:1883", "AndroidThingSub", new MemoryPersistence());
+            client = new MqttClient("tcp://192.168.1.101:1883", "AndroidThingSub", new MemoryPersistence());
             client.setCallback(this);
             client.connect();
 
-            String topic = "topic/rover";
-            client.subscribe(topic);
+            client.subscribe("topic/lampresponse");
 
-            client.publish("topic/lamp", new MqttMessage("LAMP ON".getBytes()));
 
         } catch (MqttException e) {
             e.printStackTrace();
@@ -104,25 +99,20 @@ public class MainActivity extends Activity  implements TextToSpeech.OnInitListen
 
 
             // for rover motor control
-            // Create GPIO connection for Motor A Pin 1.
-            motorAPin1 = service.openGpio(MOTOR_A_1_PIN);
+            // Create GPIO connection for Rover Pin 1.
+            roverPin1 = service.openGpio(ROVER_1_PIN);
             // Configure as an output.
-            motorAPin1.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
+            roverPin1.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
 
             // Create GPIO connection for Motor A Pin 2.
-            motorAPin2 = service.openGpio(MOTOR_A_2_PIN);
+            roverPin2 = service.openGpio(ROVER_2_PIN);
             // Configure as an output.
-            motorAPin2.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
+            roverPin2.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
 
             // Create GPIO connection for Motor B Pin 1.
-            motorBPin1 = service.openGpio(MOTOR_B_1_PIN);
+            roverPin3 = service.openGpio(ROVER_3_PIN);
             // Configure as an output.
-            motorBPin1.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
-
-            // Create GPIO connection for Motor B Pin 2.
-            motorBPin2 = service.openGpio(MOTOR_B_2_PIN);
-            // Configure as an output.
-            motorBPin2.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
+            roverPin3.setDirection(Gpio.DIRECTION_OUT_INITIALLY_HIGH);
 
         } catch (IOException e) {
             Log.e(TAG, "Error on PeripheralIO API", e);
@@ -161,17 +151,48 @@ public class MainActivity extends Activity  implements TextToSpeech.OnInitListen
                     Log.d(TAG, "onActivityResult: " + responseMessage);
 //                    speak(responseMessage);
                     processSpeech(responseMessage);
-                }else{
-                    Log.d(TAG, "onActivityResult: Result Code:"+resultCode+ " || Data: "+ data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS));
+                } else {
+                    Log.d(TAG, "onActivityResult: Result Code:" + resultCode + " || Data: " + data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS));
                     speak("There was some issue while listening. Please try again!");
                 }
                 break;
             }
             default: {
-                Log.d(TAG, "onActivityResult: Default!!"+ resultCode);
+                Log.d(TAG, "onActivityResult: Default!!" + resultCode);
             }
             break;
         }
+    }
+
+    @Override
+    public void onInit(int status) {
+        Log.d(TAG, "onInit: " + status);
+        speak("Status is " + status);
+        if (status == TextToSpeech.SUCCESS) {
+            int result = tts.setLanguage(Locale.US);
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "This Language is not supported");
+            }
+
+        } else {
+            Log.e("TTS", "Initilization Failed!");
+        }
+    }
+
+    @Override
+    public void connectionLost(Throwable cause) {
+        Log.d(TAG, "connectionLost....");
+    }
+
+    @Override
+    public void messageArrived(String topic, MqttMessage message) throws Exception {
+        String payload = new String(message.getPayload());
+        Log.d(TAG, "message received --> " + payload);
+    }
+
+    @Override
+    public void deliveryComplete(IMqttDeliveryToken token) {
+        Log.d(TAG, "deliveryComplete....");
     }
 
     // Register an event callback.
@@ -180,7 +201,7 @@ public class MainActivity extends Activity  implements TextToSpeech.OnInitListen
         public boolean onGpioEdge(Gpio gpio) {
             Log.i(TAG, "GPIO callback ------------");
 
-            if(!isListening) {
+            if (!isListening) {
                 listen();
             }
             // Return true to keep callback active.
@@ -207,24 +228,9 @@ public class MainActivity extends Activity  implements TextToSpeech.OnInitListen
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
     }
 
-    @Override
-    public void onInit(int status) {
-        Log.d(TAG, "onInit: "+status);
-        speak("Status is "+status);
-        if (status == TextToSpeech.SUCCESS) {
-            int result = tts.setLanguage(Locale.US);
-            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Log.e("TTS", "This Language is not supported");
-            }
-
-        } else {
-            Log.e("TTS", "Initilization Failed!");
-        }
-    }
-
-    public void processSpeech(final String speech) {
+    private void processSpeech(final String speech) {
         Log.d(TAG, "processSpeech");
-        String url = "https://8713cb8f.ngrok.io/jarvis";
+        String url = "https://0c868e3a.ngrok.io/jarvis";
 
         String payload = "{\"query\":\"" + speech + "\"}";
         try {
@@ -237,16 +243,31 @@ public class MainActivity extends Activity  implements TextToSpeech.OnInitListen
                         String resp = response.getString("response");
                         String type = response.getString("type");
                         Log.d(TAG, "onResponse: " + resp + " -- " + type);
-                        switch (type){
+                        switch (type) {
                             case "cmd":
-                                if(client != null){
+                                if (client != null) {
 
-                                    switch (resp){
+                                    switch (resp) {
                                         case "LAMP ON":
                                             client.publish("topic/lamp", new MqttMessage("ON".getBytes("UTF-8")));
                                             break;
                                         case "LAMP OFF":
                                             client.publish("topic/lamp", new MqttMessage("OFF".getBytes("UTF-8")));
+                                            break;
+                                        case "FORWARD":
+                                            roverCommand("FWD");
+                                            break;
+                                        case "BACKWARD":
+                                            roverCommand("BWD");
+                                            break;
+                                        case "LEFT":
+                                            roverCommand("LFT");
+                                            break;
+                                        case "RIGHT":
+                                            roverCommand("RGT");
+                                            break;
+                                        case "STOP":
+                                            roverCommand("STP");
                                             break;
                                         default:
                                             break;
@@ -267,19 +288,19 @@ public class MainActivity extends Activity  implements TextToSpeech.OnInitListen
                         } else {
                             speak(resp);
                         }
-                    } catch (JSONException | MqttException | UnsupportedEncodingException e) {
+                    } catch (JSONException | MqttException | IOException e) {
                         e.printStackTrace();
                     }
                 }
             }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (error != null && error.getMessage() != null) {
-                            Log.i(TAG, error.getMessage());
-                        } else {
-                            Log.i(TAG, "Unknown error from server!!");
-                        }
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (error != null && error.getMessage() != null) {
+                        Log.i(TAG, error.getMessage());
+                    } else {
+                        Log.i(TAG, "Unknown error from server!!");
                     }
+                }
             });
             Volley.newRequestQueue(getApplicationContext()).add(jsonRequest);
         } catch (JSONException e) {
@@ -287,63 +308,46 @@ public class MainActivity extends Activity  implements TextToSpeech.OnInitListen
         }
     }
 
-    @Override
-    public void connectionLost(Throwable cause) {
-        Log.d(TAG, "connectionLost....");
-    }
-
-    @Override
-    public void messageArrived(String topic, MqttMessage message) throws Exception {
-        String payload = new String(message.getPayload());
-        Log.d(TAG, "message received --> "+payload);
-        switch (payload) {
+    private void roverCommand(String command) throws IOException {
+        switch (command) {
             case "FWD":
                 Log.d(TAG, "Rover Forward");
-                motorAPin1.setValue(true);
-                motorAPin2.setValue(false);
-                motorBPin1.setValue(false);
-                motorBPin2.setValue(true);
+                roverPin1.setValue(true);
+                roverPin2.setValue(true);
+                roverPin3.setValue(false);
                 break;
             case "BWD":
                 Log.d(TAG, "Rover Backward");
-                motorAPin1.setValue(false);
-                motorAPin2.setValue(true);
-                motorBPin1.setValue(true);
-                motorBPin2.setValue(false);
+                roverPin1.setValue(false);
+                roverPin2.setValue(false);
+                roverPin3.setValue(false);
                 break;
             case "LFT":
                 Log.d(TAG, "Rover Left");
-                motorAPin1.setValue(true);
-                motorAPin2.setValue(false);
-                motorBPin1.setValue(false);
-                motorBPin2.setValue(false);
+                roverPin1.setValue(true);
+                roverPin2.setValue(false);
+                roverPin3.setValue(false);
                 break;
             case "RGT":
                 Log.d(TAG, "Rover Right");
-                motorAPin1.setValue(false);
-                motorAPin2.setValue(false);
-                motorBPin1.setValue(false);
-                motorBPin2.setValue(true);
+                roverPin1.setValue(false);
+                roverPin2.setValue(true);
+                roverPin3.setValue(false);
                 break;
             case "STP":
                 Log.d(TAG, "Rover Stop");
-                motorAPin1.setValue(false);
-                motorAPin2.setValue(false);
-                motorBPin1.setValue(false);
-                motorBPin2.setValue(false);
+                roverPin1.setValue(false);
+                roverPin2.setValue(false);
+                roverPin3.setValue(true);
                 break;
             default:
                 Log.d(TAG, "Message not supported!");
-                motorAPin1.setValue(false);
-                motorAPin2.setValue(false);
-                motorBPin1.setValue(false);
-                motorBPin2.setValue(false);
+                roverPin1.setValue(false);
+                roverPin2.setValue(false);
+                roverPin3.setValue(true);
                 break;
         }
     }
 
-    @Override
-    public void deliveryComplete(IMqttDeliveryToken token) {
-        Log.d(TAG, "deliveryComplete....");
-    }
+
 }
