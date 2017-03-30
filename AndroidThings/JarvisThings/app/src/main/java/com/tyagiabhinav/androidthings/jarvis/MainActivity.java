@@ -79,7 +79,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
             client.setCallback(this);
             client.connect();
 
-            client.subscribe("topic/lampresponse");
+            client.subscribe("topic/rover");
 
 
         } catch (MqttException e) {
@@ -188,6 +188,25 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
     public void messageArrived(String topic, MqttMessage message) throws Exception {
         String payload = new String(message.getPayload());
         Log.d(TAG, "message received --> " + payload);
+        switch (payload) {
+            case "FORWARD":
+                roverCommand("FWD");
+                break;
+            case "BACKWARD":
+                roverCommand("BWD");
+                break;
+            case "LEFT":
+                roverCommand("LFT");
+                break;
+            case "RIGHT":
+                roverCommand("RGT");
+                break;
+            case "STOP":
+                roverCommand("STP");
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -249,10 +268,10 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 
                                     switch (resp) {
                                         case "LAMP ON":
-                                            client.publish("topic/lamp", new MqttMessage("ON".getBytes("UTF-8")));
+                                            client.publish("topic/lamp", new MqttMessage("1".getBytes("UTF-8")));
                                             break;
                                         case "LAMP OFF":
-                                            client.publish("topic/lamp", new MqttMessage("OFF".getBytes("UTF-8")));
+                                            client.publish("topic/lamp", new MqttMessage("0".getBytes("UTF-8")));
                                             break;
                                         case "FORWARD":
                                             roverCommand("FWD");
