@@ -20,19 +20,27 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
+public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener, MqttCallback {
 
     private TextView speechText;
     private static final int SPEECH_INPUT = 27;
     private static final String TAG = MainActivity.class.getSimpleName();
     private TextToSpeech tts;
     private TextView jarvisResponse;
+    private MqttClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +59,15 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         jarvisResponse = (TextView) findViewById(R.id.jarvisResponse);
 
         tts = new TextToSpeech(this, this);
+
+        try {
+            client = new MqttClient("tcp://192.168.1.101:1883", "AndroidThingSub", new MemoryPersistence());
+            client.setCallback(this);
+            client.connect();
+
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
     }
 
     private void init() {
@@ -137,13 +154,52 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                         String resp = response.getString("response");
                         String type = response.getString("type");
                         Log.d(TAG, "onResponse: " + resp + " -- " + type);
+                        switch (type) {
+                            case "cmd":
+                                if (client != null) {
+
+                                    switch (resp) {
+                                        case "LAMP ON":
+                                            client.publish("topic/lamp", new MqttMessage("1".getBytes("UTF-8")));
+                                            break;
+                                        case "LAMP OFF":
+                                            client.publish("topic/lamp", new MqttMessage("0".getBytes("UTF-8")));
+                                            break;
+                                        case "FORWARD":
+                                            client.publish("topic/rover", new MqttMessage("FORWARD".getBytes("UTF-8")));
+                                            break;
+                                        case "BACKWARD":
+                                            client.publish("topic/rover", new MqttMessage("BACKWARD".getBytes("UTF-8")));
+                                            break;
+                                        case "LEFT":
+                                            client.publish("topic/rover", new MqttMessage("LEFT".getBytes("UTF-8")));
+                                            break;
+                                        case "RIGHT":
+                                            client.publish("topic/rover", new MqttMessage("RIGHT".getBytes("UTF-8")));
+                                            break;
+                                        case "STOP":
+                                            client.publish("topic/rover", new MqttMessage("STOP".getBytes("UTF-8")));
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                                break;
+                            case "mth":
+                            case "wel":
+                                speak(resp);
+                                break;
+                            case "err":
+                            default:
+                                speak("Something went wrong. Please try again later!");
+                                break;
+                        }
                         if (type.equalsIgnoreCase("err")) {
                             speak("Something went wrong. Please try again later!");
                         } else {
                             speak(resp);
                         }
-                        jarvisResponse.setText(resp);
-                    } catch (JSONException e) {
+                    } catch (JSONException | MqttException | IOException e) {
                         e.printStackTrace();
                     }
                 }
@@ -163,4 +219,19 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         }
     }
 
+    @Override
+    public void connectionLost(Throwable cause) {
+        Log.d(TAG, "connectionLost....");
+    }
+
+    @Override
+    public void messageArrived(String topic, MqttMessage message) throws Exception {
+        String payload = new String(message.getPayload());
+        Log.d(TAG, "message received --> " + payload);
+    }
+
+    @Override
+    public void deliveryComplete(IMqttDeliveryToken token) {
+        Log.d(TAG, "deliveryComplete....");
+    }
 }
