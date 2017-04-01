@@ -8,9 +8,9 @@
 
 
 //EDIT THESE LINES TO MATCH YOUR SETUP
-#define MQTT_SERVER "<IP ADD OF MOSQUITO BROKER>"
-const char* ssid = "<WIFI SSID>";
-const char* password = "<PASSWORD";
+#define MQTT_SERVER "<IP ADDRESS>"
+const char* ssid = "<SSID>";
+const char* password = "<PASSWORD>";
 
 //LED on ESP8266 GPIO2
 const int lightPin = 2;

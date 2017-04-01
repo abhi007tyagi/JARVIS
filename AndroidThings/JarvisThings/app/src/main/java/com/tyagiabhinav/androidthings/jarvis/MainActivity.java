@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
@@ -75,7 +76,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 
         tts = new TextToSpeech(this, this);
         try {
-            client = new MqttClient("tcp://192.168.1.101:1883", "AndroidThingSub", new MemoryPersistence());
+            client = new MqttClient("tcp://192.168.43.86:1883", "AndroidThingSub", new MemoryPersistence());
             client.setCallback(this);
             client.connect();
 
@@ -249,7 +250,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
 
     private void processSpeech(final String speech) {
         Log.d(TAG, "processSpeech");
-        String url = "https://0c868e3a.ngrok.io/jarvis";
+        String url = "https://7633ec4b.ngrok.io/jarvis";
 
         String payload = "{\"query\":\"" + speech + "\"}";
         try {
@@ -334,24 +335,28 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
                 roverPin1.setValue(true);
                 roverPin2.setValue(true);
                 roverPin3.setValue(false);
+                stopDemoRover();
                 break;
             case "BWD":
                 Log.d(TAG, "Rover Backward");
                 roverPin1.setValue(false);
                 roverPin2.setValue(false);
                 roverPin3.setValue(false);
+                stopDemoRover();
                 break;
             case "LFT":
                 Log.d(TAG, "Rover Left");
                 roverPin1.setValue(true);
                 roverPin2.setValue(false);
                 roverPin3.setValue(false);
+                stopDemoRover();
                 break;
             case "RGT":
                 Log.d(TAG, "Rover Right");
                 roverPin1.setValue(false);
                 roverPin2.setValue(true);
                 roverPin3.setValue(false);
+                stopDemoRover();
                 break;
             case "STP":
                 Log.d(TAG, "Rover Stop");
@@ -366,6 +371,20 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
                 roverPin3.setValue(true);
                 break;
         }
+    }
+
+    private void stopDemoRover(){
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    roverCommand("STP");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 5000);
     }
 
 

@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
 
     public void processSpeech(final String speech) {
         Log.d(TAG, "processSpeech");
-        String url = "https://65aaf6b7.ngrok.io/jarvis";
+        String url = "https://7633ec4b.ngrok.io/jarvis";
 
         String payload = "{\"query\":\"" + speech + "\"}";
         try {
