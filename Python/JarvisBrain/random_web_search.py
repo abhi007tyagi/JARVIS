@@ -57,7 +57,6 @@ def get_text(json):
         return ""
 
 
-
 def get_web_result(text, typ):
     # tokenize and remove stop words
     tokenized = nltk.word_tokenize(text)
@@ -82,7 +81,10 @@ def get_web_result(text, typ):
     headers = {'Content-Type': 'application/json'}
 
     resp = requests.get(url_endpoint, params=param, headers=headers)
-    print("resp -> ", resp)
+    print("resp -> ", resp.json())
     result_json = resp.json()
 
-    return process_json(result_json, query, typ)
+    result = process_json(result_json, query, typ)
+    print("result --> ", result)
+
+    return result

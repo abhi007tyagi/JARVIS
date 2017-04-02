@@ -70,10 +70,14 @@ def jarvis():
         print("error -> ", e.args)
         result = e.args
         typ = "err"
-    return jsonify(
-            response=result,
-            type=typ
-        )
+
+    server_response = jsonify(
+        response=result,
+        type=typ
+    )
+
+    print("Server Response --> ", server_response)
+    return server_response
 
 
 if __name__ == '__main__':

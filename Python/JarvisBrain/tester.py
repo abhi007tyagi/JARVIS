@@ -37,8 +37,8 @@ import classifier
 # print(classifier.classify("in India, where are dessert?"))
 # print(classifier.classify("please turn on the lights"))
 
-print(classifier.classify("Uttar Pradesh"))
-
+# print(classifier.classify("Uttar Pradesh"))
+print(classifier.classify("Who is Narendra Modi"))
 
 # print(math_cal.get_math_evaluation("what is three multiplied to 4"))
 # print("#############################  12")
@@ -98,7 +98,7 @@ print(classifier.classify("Uttar Pradesh"))
 # print("#############################  30")
 # print(math_cal.get_math_evaluation("subtract 5 from 100"))
 # print("#############################  95")
-# # print(math_cal.get_math_evaluation("add 5 to 100"))
+# print(math_cal.get_math_evaluation("add 5 to 100"))
 # print("#############################  105")
 # print(math_cal.get_math_evaluation("multiply 5 with 100"))
 # print("#############################  500")
@@ -116,5 +116,7 @@ print(classifier.classify("Uttar Pradesh"))
 # print("#############################  0.5")
 # print(math_cal.get_math_evaluation("calculate 5 subtracted from 10"))
 # print("#############################  5")
+# print(math_cal.get_math_evaluation("calculate 90 - 40 x 20 / 10 + 3"))
+# print("#############################  13")
 # print(math_cal.get_math_evaluation("what is twelve billion divided by 1000 x 2 minus 100000")) # FAILED CASE
 # print("#############################")

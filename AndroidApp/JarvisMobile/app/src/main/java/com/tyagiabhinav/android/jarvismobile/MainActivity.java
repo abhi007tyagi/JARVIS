@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,13 +56,21 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
             }
         });
 
+        FloatingActionButton stop = (FloatingActionButton) findViewById(R.id.stopSpeaking);
+        stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stopSpeaking(view);
+            }
+        });
+
         speechText = (TextView) findViewById(R.id.speechToText);
         jarvisResponse = (TextView) findViewById(R.id.jarvisResponse);
 
         tts = new TextToSpeech(this, this);
 
         try {
-            client = new MqttClient("tcp://192.168.1.101:1883", "AndroidThingSub", new MemoryPersistence());
+            client = new MqttClient("tcp://192.168.43.86:1883", "AndroidThingSub", new MemoryPersistence());
             client.setCallback(this);
             client.connect();
 
@@ -143,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         Log.d(TAG, "processSpeech");
         String url = "https://7633ec4b.ngrok.io/jarvis";
 
+        ((ProgressBar) findViewById(R.id.progressBar)).setVisibility(View.VISIBLE);
         String payload = "{\"query\":\"" + speech + "\"}";
         try {
             JSONObject requestPayload = new JSONObject(payload);
@@ -152,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                 public void onResponse(JSONObject response) {
                     try {
                         String resp = response.getString("response");
+                        jarvisResponse.setText(resp);
                         String type = response.getString("type");
                         Log.d(TAG, "onResponse: " + resp + " -- " + type);
                         switch (type) {
@@ -199,8 +210,10 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                         } else {
                             speak(resp);
                         }
+                        ((ProgressBar) findViewById(R.id.progressBar)).setVisibility(View.GONE);
                     } catch (JSONException | MqttException | IOException e) {
                         e.printStackTrace();
+                        ((ProgressBar) findViewById(R.id.progressBar)).setVisibility(View.GONE);
                     }
                 }
             }, new Response.ErrorListener() {
@@ -211,11 +224,14 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                     } else {
                         Log.i(TAG, "Unknown error from server!!");
                     }
+                    speak("Something went wrong. Please try again later!");
+                    ((ProgressBar) findViewById(R.id.progressBar)).setVisibility(View.GONE);
                 }
             });
             Volley.newRequestQueue(getApplicationContext()).add(jsonRequest);
         } catch (JSONException e) {
             e.printStackTrace();
+            ((ProgressBar) findViewById(R.id.progressBar)).setVisibility(View.GONE);
         }
     }
 

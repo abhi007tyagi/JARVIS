@@ -197,10 +197,10 @@ def format_input(text):
     text = re.sub(regex, " * ", text, 0)
 
     regex = r"[0-9\s][X][0-9\s]"
-    text = re.sub(regex, " X ", text, 0)
+    text = re.sub(regex, " * ", text, 0)
 
     regex = r"[0-9\s][x][0-9\s]"
-    text = re.sub(regex, " x ", text, 0)
+    text = re.sub(regex, " * ", text, 0)
 
     if "calculate" in text:
         text = text.replace("calculate", "")

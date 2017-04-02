@@ -320,6 +320,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
                     } else {
                         Log.i(TAG, "Unknown error from server!!");
                     }
+                    speak("Something went wrong. Please try again later!");
                 }
             });
             Volley.newRequestQueue(getApplicationContext()).add(jsonRequest);
