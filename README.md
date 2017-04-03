@@ -2,7 +2,9 @@ J.A.R.V.I.S.
 ================
 
 Just A Rather Very Intelligent System<br>
+
 [![J.R.V.I.S.](https://i9.ytimg.com/vi/xPKLcJJxpJM/1.jpg?sqp=CLj6iccF&rs=AOn4CLCK0mxJ-rGqvDGqqUzRrUEnh9pxKw&time=1491238350130)](https://youtu.be/xPKLcJJxpJM)
+
 
 This project demonstrates the use of different technologies and their integration to build an intelligent system which will interact with a human and support in their day to day tasks. It is inspired from the AI bot, "JARVIS" from the movie, "Iron Man".<br>
 
@@ -35,6 +37,20 @@ Lamp control: Lamp is based on ESP8266 wifi module. It is programmed to control 
 
 JARVIS MOBILE
 ---------------
-The Android application provides another user interface to communicate with the Brain and perform the tasks. Similar to JARVIS THINGS, it uses, in-built Speech-To-Text and Text-To-Speech libraries. The replies are read out aloud on the mobile device itself. However, to perform other tasks like moving the rover and other, it is dependent on JARVIS THINGS to perform those tasks on its behalf. MQTT is used to send instructions to the Things and the tasks are performed.<br><br>  
+The Android application provides another user interface to communicate with the Brain and perform the tasks. Similar to JARVIS THINGS, it uses, in-built Speech-To-Text and Text-To-Speech libraries. The replies are read out aloud on the mobile device itself. However, to perform other tasks like moving the rover and other, it is dependent on JARVIS THINGS to perform those tasks on its behalf. MQTT is used to send instructions to the Things and the tasks are performed.<br><br> 
+
+LICENSE
+-------
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. 
 
 
