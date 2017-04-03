@@ -5,6 +5,8 @@ Just A Rather Very Intelligent System<br>
 
 This project demonstrates the use of different technologies and their integration to build an intelligent system which will interact with a human and support in their day to day tasks. It is inspired from the AI bot, "JARVIS" from the movie, "Iron Man".<br>
 
+[![J.R.V.I.S.](https://i9.ytimg.com/vi/xPKLcJJxpJM/1.jpg?sqp=CLj6iccF&rs=AOn4CLCK0mxJ-rGqvDGqqUzRrUEnh9pxKw&time=1491238350130)](https://youtu.be/xPKLcJJxpJM)
+
 Currently, the project version 0.2, has 3 main platforms:<br>
 1. JARVIS BRAIN<br>
 2. JARVIS THINGS<br>
@@ -21,7 +23,6 @@ If the input speech result is not found out from the classified module, then it 
 
 This engine is accessible via python based service based on Flask.<br><br>
 
-[![J.R.V.I.S.](https://i9.ytimg.com/vi/xPKLcJJxpJM/1.jpg?sqp=CLj6iccF&rs=AOn4CLCK0mxJ-rGqvDGqqUzRrUEnh9pxKw&time=1491238350130)](https://youtu.be/xPKLcJJxpJM)
 
 JARVIS THINGS
 ---------------
