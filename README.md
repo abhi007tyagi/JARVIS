@@ -6,9 +6,9 @@ Just A Rather Very Intelligent System<br>
 This project demonstrates the use of different technologies and their integration to build an intelligent system which will interact with a human and support in their day to day tasks. It is inspired from the AI bot, "JARVIS" from the movie, "Iron Man".<br>
 
 Currently, the project version 0.2, has 3 main platforms:<br>
-1. JARVIS brain<br>
-2. JARVIS things<br>
-3. JARVIS mobile<br><br>
+1. JARVIS BRAIN<br>
+2. JARVIS THINGS<br>
+3. JARVIS MOBILE<br><br>
 
 JARVIS BRAIN
 --------------
