@@ -123,6 +123,13 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
         }
     }
 
+    /**
+     * Get speech to text result
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -149,6 +156,12 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
         }
     }
 
+
+    /**
+     * Initialize Text to speech
+     *
+     * @param status
+     */
     @Override
     public void onInit(int status) {
         Log.d(TAG, "onInit: " + status);
@@ -173,6 +186,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
     public void messageArrived(String topic, MqttMessage message) throws Exception {
         String payload = new String(message.getPayload());
         Log.d(TAG, "message received --> " + payload);
+        // Check if any Rover control message is received from Jarvis Mobile via MQTT
         switch (payload) {
             case "FORWARD":
                 roverCommand("FWD");
@@ -232,6 +246,12 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
     }
 
+
+    /**
+     * Process speech text. Send it to Jarvis Brain and perform task based on response.
+     *
+     * @param speech
+     */
     private void processSpeech(final String speech) {
         Log.d(TAG, "processSpeech");
         String url = "https://7633ec4b.ngrok.io/jarvis";
@@ -252,12 +272,14 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
                                 if (client != null) {
 
                                     switch (resp) {
+                                        // LAMP is controlled via MQTT
                                         case "LAMP ON":
                                             client.publish("topic/lamp", new MqttMessage("1".getBytes("UTF-8")));
                                             break;
                                         case "LAMP OFF":
                                             client.publish("topic/lamp", new MqttMessage("0".getBytes("UTF-8")));
                                             break;
+                                        // Rover is controlled via RF serial communication
                                         case "FORWARD":
                                             roverCommand("FWD");
                                             break;
@@ -278,6 +300,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
                                     }
                                 }
                                 break;
+                            // Rest of the types are played on speaker
                             case "mth":
                             case "wel":
                                 speak(resp);
@@ -358,7 +381,8 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
         }
     }
 
-    private void stopDemoRover(){
+    // Stop rover after 5 sec. For Demo purpose as we don't want the rover to continue moving.
+    private void stopDemoRover() {
         new Handler().postDelayed(new Runnable() {
 
             @Override

@@ -79,6 +79,9 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         }
     }
 
+    /**
+     * Initialize Speech Recognition
+     */
     private void init() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
@@ -93,6 +96,13 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
     }
 
 
+    /**
+     * Get speech to text result
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -112,6 +122,11 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         }
     }
 
+    /**
+     * Initialize Text to speech
+     *
+     * @param status
+     */
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
@@ -148,6 +163,11 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
     }
 
 
+    /**
+     * Process speech text, send it to Brain and receive response. Then do task based on response.
+     *
+     * @param speech
+     */
     public void processSpeech(final String speech) {
         Log.d(TAG, "processSpeech");
         String url = "https://7633ec4b.ngrok.io/jarvis";
@@ -166,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                         String type = response.getString("type");
                         Log.d(TAG, "onResponse: " + resp + " -- " + type);
                         switch (type) {
+                            // Command type should be handled using MQTT. Lamp is directly controlled. Rover is controlled via Jarvis Things Module
                             case "cmd":
                                 if (client != null) {
 
@@ -196,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                                     }
                                 }
                                 break;
+                            // Rest of the responses are played via speaker
                             case "mth":
                             case "wel":
                                 speak(resp);
