@@ -254,7 +254,7 @@ public class MainActivity extends Activity implements TextToSpeech.OnInitListene
      */
     private void processSpeech(final String speech) {
         Log.d(TAG, "processSpeech");
-        String url = "https://7633ec4b.ngrok.io/jarvis";
+        String url = "https://37b69e6b.ngrok.io/jarvis";
 
         String payload = "{\"query\":\"" + speech + "\"}";
         try {

@@ -2,7 +2,7 @@
 # application files
 *.pyc
 *.pickle
-
+*.config
 
 # folder
 pickled/

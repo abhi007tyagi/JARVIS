@@ -38,7 +38,8 @@ import classifier
 # print(classifier.classify("please turn on the lights"))
 
 # print(classifier.classify("Uttar Pradesh"))
-print(classifier.classify("Who is Narendra Modi"))
+# print(classifier.classify("Who is Narendra Modi"))
+print(classifier.classify("Temperature in New Delhi"))
 
 # print(math_cal.get_math_evaluation("what is three multiplied to 4"))
 # print("#############################  12")

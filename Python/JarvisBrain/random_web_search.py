@@ -1,6 +1,8 @@
 import nltk
 from nltk.corpus import stopwords
 import requests
+import configparser
+import os
 
 
 def process_json(json, query, typ):
@@ -57,7 +59,55 @@ def get_text(json):
         return ""
 
 
+def get_weather_info(query):
+    for w in ["weather", "Weather", "temperature", "Temperature", "cold", "hot", "humid", "climate"]:
+        if w in query:
+            query = query.replace(w, "")
+            break
+
+
+    # Get Project Directory and config file path
+    project_dir = os.path.dirname(os.path.abspath(__file__))
+    config_filepath = os.path.join(project_dir, 'raw', 'keys.config')
+
+    # Read config file
+    config = configparser.RawConfigParser()
+    config.read(config_filepath)
+    print(config.sections())
+
+    # Get Weather API key
+    api_key = config.get('APIKeys', 'weather')
+    print(api_key)
+
+    # http://api.openweathermap.org/data/2.5/weather?q=London&appid=XXXXX
+    url_endpoint = 'http://api.openweathermap.org/data/2.5/weather'
+    param = {'q': query[:-1], 'appid': api_key}
+    headers = {'Content-Type': 'application/json'}
+
+    resp = requests.get(url_endpoint, params=param, headers=headers)
+    print("resp -> ", resp.json())
+    result_json = resp.json()
+    temp = result_json['main']['temp']
+
+    try:
+        temp -= 273
+        temp = round(temp, 1)
+    except:
+        return ""
+
+    print("temp -> ", temp)
+
+    return "Temperature is " + str(temp) + " degree celsius in " + query
+
+
 def get_web_result(text, typ):
+    is_weather = False
+
+    for w in ["weather", "Weather", "temperature", "Temperature", "cold", "hot", "humid", "climate"]:
+        if w in text:
+            is_weather = True
+            break
+
     # tokenize and remove stop words
     tokenized = nltk.word_tokenize(text)
 
@@ -76,15 +126,19 @@ def get_web_result(text, typ):
         if w[1][0] in allowed_word_types:
             query += w[0] + " "
 
-    url_endpoint = 'https://www.duckduckgo.com'
-    param = {'q': query[:-1], 'format': 'json', 't': 'h', 'ia': 'web'}
-    headers = {'Content-Type': 'application/json'}
+    if is_weather:
+        result = get_weather_info(query)
 
-    resp = requests.get(url_endpoint, params=param, headers=headers)
-    print("resp -> ", resp.json())
-    result_json = resp.json()
+    if len(result) == 0:
+        url_endpoint = 'https://www.duckduckgo.com'
+        param = {'q': query[:-1], 'format': 'json', 't': 'h', 'ia': 'web'}
+        headers = {'Content-Type': 'application/json'}
 
-    result = process_json(result_json, query, typ)
-    print("result --> ", result)
+        resp = requests.get(url_endpoint, params=param, headers=headers)
+        print("resp -> ", resp.json())
+        result_json = resp.json()
+
+        result = process_json(result_json, query, typ)
+        print("result --> ", result)
 
     return result
