@@ -8,7 +8,7 @@ Just A Rather Very Intelligent System<br>
 
 This project demonstrates the use of different technologies and their integration to build an intelligent system which will interact with a human and support in their day to day tasks. It is inspired from the AI bot, "JARVIS" from the movie, "Iron Man".<br>
 
-Currently, the project version 0.2, has 3 main platforms:<br>
+Currently, the project version 0.25, has 3 main platforms:<br>
 1. JARVIS BRAIN<br>
 2. JARVIS THINGS<br>
 3. JARVIS MOBILE<br><br>
@@ -35,7 +35,7 @@ Rover control: Rover is based on Arduino UNO board and communicates with JARVIS 
 
 Lamp control: Lamp is based on ESP8266 wifi module. It is programmed to control the relay which then controls the AC appliance i.e. the LAMP. MQTT protocol is used for communication between the Thing and the Lamp.
 
-Location Temperature: Speaking out "Temperature of New Delhi" will fetch the temperature for New Delhi using Open Weather Map API. If not found it will go for regular web search as fail safe option.<br><br>
+Location Temperature: Added in ver 0.25, speaking out "Temperature of New Delhi" will fetch the temperature for New Delhi using Open Weather Map API. If not found it will go for regular web search as fail safe option.<br><br>
 
 JARVIS MOBILE
 ---------------
