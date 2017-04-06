@@ -33,7 +33,9 @@ MQTT protocol is used for assisting JARVIS MOBILE to control the Rover and the L
 
 Rover control: Rover is based on Arduino UNO board and communicates with JARVIS THINGS via RF module. Based on the command received from Brain, different commands are transmitted to Rover to make it move forward, backwards, left, right and stop. For the demo, all commands execute for 5 seconds only.
 
-Lamp control: Lamp is based on ESP8266 wifi module. It is programmed to control the relay which then controls the AC appliance i.e. the LAMP. MQTT protocol is used for communication between the Thing and the Lamp.<br><br>
+Lamp control: Lamp is based on ESP8266 wifi module. It is programmed to control the relay which then controls the AC appliance i.e. the LAMP. MQTT protocol is used for communication between the Thing and the Lamp.
+
+Location Temperature: Speaking out "Temperature of New Delhi" will fetch the temperature for New Delhi using Open Weather Map API. If not found it will go for regular web search as fail safe option.<br><br>
 
 JARVIS MOBILE
 ---------------
