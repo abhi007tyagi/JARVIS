@@ -6,6 +6,7 @@ import inflect
 import text2num
 import classifier
 
+
 # print("1 -> wel", j.get_context("hello"))
 # print("2 -> wel", j.get_context("hi"))
 # print("3 -> cmd", j.get_context("hey! can you move up the ladder?"))
@@ -39,7 +40,13 @@ import classifier
 
 # print(classifier.classify("Uttar Pradesh"))
 # print(classifier.classify("Who is Narendra Modi"))
-print(classifier.classify("Temperature in New Delhi"))
+# print(classifier.classify("Temperature in New Delhi"))
+
+print(math_cal.get_math_evaluation("what is 5 multiplied by 5 plus square of 4"))
+print(math_cal.get_math_evaluation("what is 5 multiplied by 5 plus cube of 4"))
+print(math_cal.get_math_evaluation("what is 5 multiplied by 5 plus square root of 4"))
+print(math_cal.get_math_evaluation("what is 5 multiplied by 5 plus cube root of 8"))
+
 
 # print(math_cal.get_math_evaluation("what is three multiplied to 4"))
 # print("#############################  12")

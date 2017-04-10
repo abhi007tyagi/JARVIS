@@ -4,6 +4,28 @@ import re
 from nltk.corpus import stopwords
 
 
+def cuberoot(x):
+    x = float(x)
+    if 0 <= x:
+        return x ** (1. / 3.)
+    return -(-x) ** (1. / 3.)
+
+
+def squareroot(x):
+    x = float(x)
+    if 0 <= x:
+        return x ** (1. / 2.)
+    return -(-x) ** (1. / 2.)
+
+
+def cube(x):
+    return float(x) ** 3
+
+
+def square(x):
+    return float(x) ** 2
+
+
 def get_exp(chunked):
     exp = extract_chunks(chunked, ["Chunk00", "Chunk1", "Chunk2", "Chunk3"])
     # print("get_exp ->", exp)
@@ -99,7 +121,8 @@ def extract_direct_math_expressions(tags):
                 isSubtract = False
             else:
                 exp += stack.pop()
-        if word[0] in ["*", "x", "X", "/", "+", "-", "add", "subtract", "multiply", "divide", "added", "subtracted", "multiplied", "divided"]:
+        if word[0] in ["*", "x", "X", "/", "+", "-", "add", "subtract", "multiply", "divide", "added", "subtracted",
+                       "multiplied", "divided"]:
             counter += 1
 
     print("exp 2 -> ", exp)
@@ -232,6 +255,35 @@ def text_to_num(text):
     return text
 
 
+def process_power(tags):
+    size = len(tags)
+    i = 0
+    for word in tags:
+        print("******* WORD *******", word[0])
+        if i < size and (word[0] == "square" or word[0] == "Square") and tags[i + 1][1] == "CD":
+            sqr = square(tags[i + 1][0])
+            tags[i] = (str(sqr), 'CD')
+            del tags[i + 1]
+        elif i < size and (word[0] == "cube" or word[0] == "Cube") and tags[i + 1][1] == "CD":
+            cub = cube(tags[i + 1][0])
+            tags[i] = (str(cub), 'CD')
+            del tags[i + 1]
+        elif i < size and (word[0] == "square" or word[0] == "Square") and tags[i + 1][0] == "root" and tags[i + 2][1] == "CD":
+            sqrt = squareroot(tags[i + 2][0])
+            tags[i] = (str(sqrt), 'CD')
+            del tags[i + 1]
+            del tags[i + 1]
+        elif i < size and (word[0] == "cube" or word[0] == "Cube") and tags[i + 1][0] == "root" and tags[i + 2][1] == "CD":
+            cubrt = cuberoot(tags[i + 2][0])
+            tags[i] = (str(cubrt), 'CD')
+            del tags[i + 1]
+            del tags[i + 1]
+        i += 1
+
+    print("Processed TAGS --> ", tags)
+    return tags
+
+
 def get_math_evaluation(text):
     print("text received ->", text)
 
@@ -265,6 +317,9 @@ def get_math_evaluation(text):
         #  tag the filtered words
         tags = nltk.pos_tag(filtered_text)
         print("fitered tags -> ", tags)
+
+        # process power of a number
+        tags = process_power(tags)
 
         # calculating direct math expressions like "add 10 to 6 multiplied by 7 divided by 6
         try:
