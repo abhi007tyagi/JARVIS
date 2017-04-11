@@ -43,9 +43,9 @@ import classifier
 # print(classifier.classify("Temperature in New Delhi"))
 
 print(math_cal.get_math_evaluation("what is 5 multiplied by 5 plus square of 4"))
-print(math_cal.get_math_evaluation("what is 5 multiplied by 5 plus cube of 4"))
-print(math_cal.get_math_evaluation("what is 5 multiplied by 5 plus square root of 4"))
-print(math_cal.get_math_evaluation("what is 5 multiplied by 5 plus cube root of 8"))
+print(math_cal.get_math_evaluation("what is 4 divided by 2 plus cube of 7"))
+print(math_cal.get_math_evaluation("what is 25 added to 5 plus square root of 9"))
+print(math_cal.get_math_evaluation("what is cube root of 8 divided by 7"))
 
 
 # print(math_cal.get_math_evaluation("what is three multiplied to 4"))
