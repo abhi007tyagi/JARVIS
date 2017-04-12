@@ -3,7 +3,7 @@ J.A.R.V.I.S.
 
 Just A Rather Very Intelligent System<br>
 
-[![J.A.R.V.I.S.](https://i9.ytimg.com/vi/xPKLcJJxpJM/1.jpg?sqp=CLj6iccF&rs=AOn4CLCK0mxJ-rGqvDGqqUzRrUEnh9pxKw&time=1491238350130)](https://youtu.be/xPKLcJJxpJM)
+[![J.A.R.V.I.S.](https://i.ytimg.com/vi/xPKLcJJxpJM/1.jpg)](https://youtu.be/xPKLcJJxpJM)
 
 
 This project demonstrates the use of different technologies and their integration to build an intelligent system which will interact with a human and support in their day to day tasks. It is inspired from the AI bot, "JARVIS" from the movie, "Iron Man".<br>
