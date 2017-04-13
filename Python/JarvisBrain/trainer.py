@@ -106,6 +106,8 @@ save_classifier = open("pickled/originalnaivebayes.pickle", "wb")
 pickle.dump(orig_classifier, save_classifier)
 save_classifier.close()
 
+
+## Different classifiers are used at the moment. During code optimization, only the required classifier/s will be used.
 MNB_classifier = SklearnClassifier(MultinomialNB())
 MNB_classifier.train(training_set)
 print("MNB_classifier Accuracy ->", (nltk.classify.accuracy(MNB_classifier, testing_set)) * 100)
