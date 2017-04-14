@@ -126,7 +126,8 @@ save_classifier.close()
 
 LogisticRegression_classifier = SklearnClassifier(LogisticRegression())
 LogisticRegression_classifier.train(training_set)
-print("LogisticRegression_classifier Accuracy ->", (nltk.classify.accuracy(LogisticRegression_classifier, testing_set)) * 100)
+print("LogisticRegression_classifier Accuracy ->",
+      (nltk.classify.accuracy(LogisticRegression_classifier, testing_set)) * 100)
 
 save_classifier = open("pickled/LogisticRegression_classifier.pickle", "wb")
 pickle.dump(LogisticRegression_classifier, save_classifier)
