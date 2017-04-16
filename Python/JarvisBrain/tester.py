@@ -42,13 +42,23 @@ import classifier
 # print(classifier.classify("Who is Narendra Modi"))
 # print(classifier.classify("Temperature in New Delhi"))
 
-print(math_cal.get_math_evaluation("what is 5 multiplied by 5 plus square of 4"))
-print(math_cal.get_math_evaluation("what is 4 divided by 2 plus cube of 7"))
-print(math_cal.get_math_evaluation("what is 25 added to 5 plus square root of 9"))
-print(math_cal.get_math_evaluation("what is cube root of 8 divided by 7"))
-print(math_cal.get_math_evaluation("evaluate 2 plus 8 multiplied by cube root of 8 divided by 4 minus 3"))
-
-
+# print(math_cal.get_math_evaluation("evaluate 3 square minus 2 cube"))
+# print("#############################  1")
+# print(math_cal.get_math_evaluation("calculate 6 square minus 3 cube plus square of 4 minus cube of 2"))
+# print("#############################  17")
+# print(math_cal.get_math_evaluation("calculate 10 square plus square root of 100 minus cube of 4 plus cube root of 8"))
+# print("#############################  48")
+# print(math_cal.get_math_evaluation("what is 5 multiplied by 5 plus square of 4"))
+# print("#############################  41")
+# print(math_cal.get_math_evaluation("what is 4 divided by 2 plus cube of 7"))
+# print("#############################  345")
+# print(math_cal.get_math_evaluation("what is 25 added to 5 plus square root of 9"))
+# print("#############################  33")
+# print(math_cal.get_math_evaluation("what is cube root of 8 divided by 7"))
+# print("#############################  0.2857142857142857")
+# print(math_cal.get_math_evaluation("evaluate 2 plus 8 multiplied by cube root of 8 divided by 4 minus 3"))
+# print("#############################  3")
+#
 # print(math_cal.get_math_evaluation("what is three multiplied to 4"))
 # print("#############################  12")
 # print(math_cal.get_math_evaluation("can you answer what 1898 subtracted from 100 is?"))
@@ -75,8 +85,8 @@ print(math_cal.get_math_evaluation("evaluate 2 plus 8 multiplied by cube root of
 # print("#############################  2476")
 # print(math_cal.get_math_evaluation("what is three hundred seventy five multiplied by 100"))
 # print("#############################  37500")
-# print(math_cal.get_math_evaluation("eleven million seventy five multiplied by 100"))
-# print("#############################  110007500")
+# print(math_cal.get_math_evaluation("eleven million seventy five multiplied by 100")) #failed
+# print("#############################  110007500 FAILED")
 # print(math_cal.get_math_evaluation("what do we get when 100 is added to 23?"))
 # print("#############################  123")
 # print(math_cal.get_math_evaluation("multiply 1 to 2 minus 6 plus 10 multiplied by 2 divided by 4"))
@@ -96,7 +106,7 @@ print(math_cal.get_math_evaluation("evaluate 2 plus 8 multiplied by cube root of
 # print(math_cal.get_math_evaluation("what is eight plus six"))
 # print("############################# 14")
 # print(math_cal.get_math_evaluation("what is eleven million X 10")) #failed
-# print("#############################  11000000")
+# print("#############################  11000000 FAILED")
 # print(math_cal.get_math_evaluation("what is 7 x 8"))
 # print("#############################  56")
 # print(math_cal.get_math_evaluation("please multiply 7 by 6"))
@@ -128,4 +138,4 @@ print(math_cal.get_math_evaluation("evaluate 2 plus 8 multiplied by cube root of
 # print(math_cal.get_math_evaluation("calculate 90 - 40 x 20 / 10 + 3"))
 # print("#############################  13")
 # print(math_cal.get_math_evaluation("what is twelve billion divided by 1000 x 2 minus 100000")) # FAILED CASE
-# print("#############################")
+# print("############################# FAILED")
