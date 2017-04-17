@@ -5,25 +5,37 @@ from nltk.corpus import stopwords
 
 
 def cuberoot(x):
-    x = float(x)
+    try:
+        x = float(x)
+    except:
+        x = float(t2n.text2num(x))
     if 0 <= x:
         return x ** (1. / 3.)
     return -(-x) ** (1. / 3.)
 
 
 def squareroot(x):
-    x = float(x)
+    try:
+        x = float(x)
+    except:
+        x = float(t2n.text2num(x))
     if 0 <= x:
         return x ** (1. / 2.)
     return -(-x) ** (1. / 2.)
 
 
 def cube(x):
-    return float(x) ** 3
+    try:
+        return float(x) ** 3
+    except:
+        return float(t2n.text2num(x)) ** 3
 
 
 def square(x):
-    return float(x) ** 2
+    try:
+        return float(x) ** 2
+    except:
+        return float(t2n.text2num(x)) ** 2
 
 
 def get_exp(chunked):
@@ -261,21 +273,22 @@ def process_power(tags):
     for word in tags:
         print("******* WORD *******", word[0])
         # check i < size-1 where tag[i+1] is compared. this resolves index out of bound error
-        if i < size-1 and (word[0] == "square" or word[0] == "Square") and tags[i + 1][1] == "CD":
+        if i < size - 1 and (word[0] == "square" or word[0] == "Square") and tags[i + 1][1] == "CD":
             sqr = square(tags[i + 1][0])
             tags[i] = (str(sqr), 'CD')
             del tags[i + 1]
             # recalculate size of tuple
             size = len(tags)
         # check i < size-1 where tag[i+1] is compared. this resolves index out of bound error
-        elif i < size-1 and (word[0] == "cube" or word[0] == "Cube") and tags[i + 1][1] == "CD":
+        elif i < size - 1 and (word[0] == "cube" or word[0] == "Cube") and tags[i + 1][1] == "CD":
             cub = cube(tags[i + 1][0])
             tags[i] = (str(cub), 'CD')
             del tags[i + 1]
             # recalculate size of tuple
             size = len(tags)
         # check i < size-1 where tag[i+1] is compared. this resolves index out of bound error
-        elif i < size-1 and (word[0] == "square" or word[0] == "Square") and tags[i + 1][0] == "root" and tags[i + 2][1] == "CD":
+        elif i < size - 1 and (word[0] == "square" or word[0] == "Square") and tags[i + 1][0] == "root" and tags[i + 2][
+            1] == "CD":
             sqrt = squareroot(tags[i + 2][0])
             tags[i] = (str(sqrt), 'CD')
             del tags[i + 1]
@@ -283,21 +296,25 @@ def process_power(tags):
             # recalculate size of tuple
             size = len(tags)
         # check i < size-1 where tag[i+1] is compared. this resolves index out of bound error
-        elif i < size-1 and (word[0] == "cube" or word[0] == "Cube") and tags[i + 1][0] == "root" and tags[i + 2][1] == "CD":
+        elif i < size - 1 and (word[0] == "cube" or word[0] == "Cube") and tags[i + 1][0] == "root" and tags[i + 2][
+            1] == "CD":
             cubrt = cuberoot(tags[i + 2][0])
             tags[i] = (str(cubrt), 'CD')
             del tags[i + 1]
             del tags[i + 1]
             size = len(tags)
         # check i < size no -1. else action will not be done on number like square or cube
-        elif i < size and (word[0] == "square" or word[0] == "Square" or word[0] == "squared" or word[0] == "Squared") and tags[i - 1][1] == "CD":
+        elif i < size and (
+                        word[0] == "square" or word[0] == "Square" or word[0] == "squared" or word[0] == "Squared") and \
+                        tags[i - 1][1] == "CD":
             sqr = square(tags[i - 1][0])
             tags[i - 1] = (str(sqr), 'CD')
             del tags[i]
             # recalculate size of tuple
             size = len(tags)
         # check i < size no -1. else action will not be done on number like square or cube
-        elif i < size and (word[0] == "cube" or word[0] == "Cube" or word[0] == "cubed" or word[0] == "Cubed") and tags[i - 1][1] == "CD":
+        elif i < size and (word[0] == "cube" or word[0] == "Cube" or word[0] == "cubed" or word[0] == "Cubed") and \
+                        tags[i - 1][1] == "CD":
             cub = cube(tags[i - 1][0])
             tags[i - 1] = (str(cub), 'CD')
             del tags[i]

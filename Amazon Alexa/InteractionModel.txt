@@ -1,0 +1,22 @@
+{
+  "intents": [
+    {
+      "intent": "AskQuestionIntent",
+      "slots": [
+        {
+          "name": "question",
+          "type": "LITERAL"
+        }
+      ]
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    }
+  ]
+}
+
+
+AskQuestionIntent {multiply ten with six|question}
+AskQuestionIntent {who is Rahul Gandhi|question}
+AskQuestionIntent {please tell me what is two plus six minus seven divided by cube of three|question}
+AskQuestionIntent {hi|question}

@@ -126,6 +126,7 @@ def get_web_result(text, typ):
         if w[1][0] in allowed_word_types:
             query += w[0] + " "
 
+    result = ''
     if is_weather:
         result = get_weather_info(query)
 

@@ -59,9 +59,13 @@ def hello_jarvis():
 @app.route('/jarvis', methods=['GET', 'POST', 'OPTIONS'])
 @crossdomain(origin="*", headers=['Content-Type', 'Accept'])
 def jarvis():
-    input_request = request.get_json(silent=True)
-    print("request->" + str(input_request))
-    text = input_request['query']
+    try:
+        input_request = request.get_json(silent=True)
+        print("request->" + str(input_request))
+        text = input_request['query']
+    except:
+        text = request.args.get('query')
+
     result = ""
     typ = ""
     try:

@@ -39,8 +39,8 @@ import classifier
 # print(classifier.classify("please turn on the lights"))
 
 # print(classifier.classify("Uttar Pradesh"))
-# print(classifier.classify("Who is Narendra Modi"))
-# print(classifier.classify("Temperature in New Delhi"))
+print(classifier.classify("Who is Sachin Tendulkar"))
+print(classifier.classify("Temperature in New Delhi"))
 
 # print(math_cal.get_math_evaluation("evaluate 3 square minus 2 cube"))
 # print("#############################  1")
@@ -58,9 +58,9 @@ import classifier
 # print("#############################  0.2857142857142857")
 # print(math_cal.get_math_evaluation("evaluate 2 plus 8 multiplied by cube root of 8 divided by 4 minus 3"))
 # print("#############################  3")
-print(math_cal.get_math_evaluation("multiply 6 with cube of 3"))
-print(math_cal.get_math_evaluation("divide 30 by square root of 4 plus 3 square"))
-print(math_cal.get_math_evaluation("cube root of 64 divided by 10 minus 2 cube plus square of 4"))
+# print(math_cal.get_math_evaluation("multiply seven with cube root of eight"))
+# print(math_cal.get_math_evaluation("divide 30 by square root of 4 plus 3 square"))
+# print(math_cal.get_math_evaluation("cube root of 64 divided by 10 minus 2 cube plus square of 4"))
 #
 # print(math_cal.get_math_evaluation("what is three multiplied to 4"))
 # print("#############################  12")
