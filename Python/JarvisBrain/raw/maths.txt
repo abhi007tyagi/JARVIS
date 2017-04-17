@@ -101,3 +101,6 @@ subtract 2 from 9
 what is 5 minus 3
 divide 14 by 2
 what is the answer to 10 / 5
+multiply 10 with cube of 2
+divide 200 by square root of 5 plus 2 square
+square root of 100 divided by 5 minus 3 cube plus square of 7
