@@ -8,10 +8,11 @@ Just A Rather Very Intelligent System<br>
 
 This project demonstrates the use of different technologies and their integration to build an intelligent system which will interact with a human and support in their day to day tasks. It is inspired from the AI bot, "JARVIS" from the movie, "Iron Man".<br>
 
-Currently, the project version 0.26, has 3 main modules:<br>
+Currently, the project version 0.27, has 4 main modules:<br>
 1. JARVIS BRAIN<br>
 2. JARVIS THINGS<br>
-3. JARVIS MOBILE<br><br>
+3. JARVIS MOBILE<br>
+4. JARVIS AMAZON ALEXA<br><br>
 
 JARVIS BRAIN
 --------------
@@ -40,6 +41,10 @@ Location Temperature: Added in ver 0.25, speaking out "Temperature of New Delhi"
 JARVIS MOBILE
 ---------------
 The Android application provides another user interface to communicate with the Brain and perform the tasks. Similar to JARVIS THINGS, it uses, in-built Speech-To-Text and Text-To-Speech libraries. The replies are read out aloud on the mobile device itself. However, to perform other tasks like moving the rover and other, it is dependent on JARVIS THINGS to perform those tasks on its behalf. MQTT is used to send instructions to the Things and the tasks are performed.<br><br> 
+
+JARVIS AMAZON ALEXA
+---------------------
+Basic Amazon Alexa skill which is integrated with JARVIS BRAIN via HTTP protocol. Jarvis skill can be invoked on Amazon Alexa supported device like Amazon Echo using the invoke term as "jarvis". The device will use inbuilt Voice to Text and Text to Speech features and communicate with the JARVIS BRAIN. During testing, it was found that Voice to Text on Alexa was not that accurate as compared to Google's and this resulted in error responses from BRAIN. The skill is not published for world yet.<br><br> 
 
 CONTRIBUTION
 --------------
