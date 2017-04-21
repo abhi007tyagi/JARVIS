@@ -1,14 +1,14 @@
-Android Things empty project template
-=====================================
-
-Use this empty project as a template for your Android Things project.
+JarvisThings
+============
+Just a rather very intelligent system base on Android Things
 
 
 Pre-requisites
 --------------
 
-- Android Things compatible board
+- Android Things compatible board with the latest AT OS image.
 - Android Studio 2.2+
+- TextToSpeech Service (like Google TTS or cmuSphinx) installed on the board as apk
 
 
 Build and install
@@ -20,7 +20,7 @@ If you prefer to run on the command line, type
 
 ```bash
 ./gradlew installDebug
-adb shell am start com.example.androidthings.myproject/.MainActivity
+adb shell am start com.tyagiabhinav.androidthings.jarvis/.MainActivity
 ```
 
 License
