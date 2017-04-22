@@ -3,16 +3,17 @@ J.A.R.V.I.S.
 
 Just A Rather Very Intelligent System<br>
 
-[![J.A.R.V.I.S.](https://i.ytimg.com/vi/xPKLcJJxpJM/1.jpg)](https://youtu.be/xPKLcJJxpJM)
+[![J.A.R.V.I.S.](https://i.ytimg.com/vi/3pHFdfW_OTQ/1.jpg)](https://youtu.be/3pHFdfW_OTQ)
 
 
 This project demonstrates the use of different technologies and their integration to build an intelligent system which will interact with a human and support in their day to day tasks. It is inspired from the AI bot, "JARVIS" from the movie, "Iron Man".<br>
 
-Currently, the project version 0.27, has 4 main modules:<br>
+Currently, the project version 0.30, has 5 main modules:<br>
 1. JARVIS BRAIN<br>
 2. JARVIS THINGS<br>
 3. JARVIS MOBILE<br>
-4. JARVIS AMAZON ALEXA<br><br>
+4. JARVIS AMAZON ALEXA<br>
+5. JARVIS WEB<br><br>
 
 JARVIS BRAIN
 --------------
@@ -45,6 +46,11 @@ The Android application provides another user interface to communicate with the 
 JARVIS AMAZON ALEXA
 ---------------------
 Basic Amazon Alexa skill which is integrated with JARVIS BRAIN via HTTP protocol. Jarvis skill can be invoked on Amazon Alexa supported device like Amazon Echo using the invoke term as "jarvis". The device will use inbuilt Voice to Text and Text to Speech features and communicate with the JARVIS BRAIN. During testing, it was found that Voice to Text on Alexa was not that accurate as compared to Google's and this resulted in error responses from BRAIN. The skill is not published for world yet.<br><br> 
+
+JARVIS WEB
+------------
+Similar to JARVIS MOBILE, JARVIS WEB gives another interface to interact via web platform. It uses 'webkitSpeechRecognition' for Voice to Text conversion and 'SpeechSynthesisUtterance' for Text to Speech. AJAX in simplest form is used to communicate with JARVIS BRAIN. JARVIS WEB can do the greetings, maths calculations, fetching temperature for the location or do a web search. In future, it would be integrated with JARVIS THINGS and control other hardwares using MQTT.
+
 
 CONTRIBUTION
 --------------
