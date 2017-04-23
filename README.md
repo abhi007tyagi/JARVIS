@@ -20,11 +20,11 @@ JARVIS BRAIN
 NLTK and Scikit based, NLP engine written in python to classify the input speech (in the text) and process it depending on the classification. Currently, the trainer trains the engine to classify for 3 patterns:<br>
 a. welcome greetings<br>
 b. basic mathematics expression solving (+,-,*,/, square, squareroot, cube, cuberoot)<br>
-c. commands to do tasks<br><br>
+c. commands to do tasks<br>
 
 If the input speech result is not found out from the classified module, then it is processed for online web search using "duckduckgo" web search API.<br>
 
-This engine is accessible via python based service based on Flask.<br><br>
+This engine is accessible via python based service build using Flask framework.<br><br>
 
 
 JARVIS THINGS
