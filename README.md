@@ -55,5 +55,5 @@ Similar to JARVIS MOBILE, JARVIS WEB gives another interface to interact via web
 CONTRIBUTION
 --------------
 I am just a regular coder just like you. You are free to contribute to the project. Help me with implementing new features, do code review, submit bugs, resolve bugs. Let's build the J.A.R.V.I.S. together :)<br>
-Just Raise an issue for the work you want to contribute. Add some details. Once I have a look at it and approved, you can send your PR.
+Just Raise an issue for the work you want to contribute. Add some details. Once I have a look at it and approve it, you can send your PR.
 
