@@ -40,10 +40,10 @@ def execute_song_cmd(tags):
         if word[0] in ["play"]:
             print("PLAY")
             return "PLAY"
-        elif word[0] in ["up", "high", "higher"]:
+        elif word[0] in ["up", "high", "higher","increase"]:
             print("VOLUME UP")
             return "VOLUME UP"
-        elif word[0] in ["down", "low", "lower"]:
+        elif word[0] in ["down", "low", "lower","decrease"]:
             print("VOLUME DOWN")
             return "VOLUME DOWN"
         elif word[0] in ["stop", "off", "OFF", "halt"]:
@@ -65,7 +65,7 @@ def extract_cmd(tags):
 
 def get_command(text):
     # tokenize and remove stop words
-    tokenized = nltk.word_tokenize(text)
+    tokenized = nltk.word_tokenize(text.lower())
 
     # stop_words = set(stopwords.words("english"))
     # filtered_text = [w for w in tokenized if not w in stop_words]
