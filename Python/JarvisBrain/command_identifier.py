@@ -65,7 +65,7 @@ def extract_cmd(tags):
 
 def get_command(text):
     # tokenize and remove stop words
-    tokenized = nltk.word_tokenize(text.lower())
+    tokenized = nltk.word_tokenize(text)
 
     # stop_words = set(stopwords.words("english"))
     # filtered_text = [w for w in tokenized if not w in stop_words]
