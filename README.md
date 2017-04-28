@@ -49,7 +49,14 @@ Basic Amazon Alexa skill which is integrated with JARVIS BRAIN via HTTP protocol
 
 JARVIS WEB
 ------------
-Similar to JARVIS MOBILE, JARVIS WEB gives another interface to interact via web platform. It uses 'webkitSpeechRecognition' for Voice to Text conversion and 'SpeechSynthesisUtterance' for Text to Speech. AJAX in simplest form is used to communicate with JARVIS BRAIN. JARVIS WEB can do the greetings, maths calculations, fetching temperature for the location or do a web search. In future, it would be integrated with JARVIS THINGS and control other hardwares using MQTT.
+Similar to JARVIS MOBILE, JARVIS WEB gives another interface to interact via web platform. It uses 'webkitSpeechRecognition' for Voice to Text conversion and 'SpeechSynthesisUtterance' for Text to Speech. AJAX in simplest form is used to communicate with JARVIS BRAIN. JARVIS WEB can do the greetings, maths calculations, fetching temperature for the location or do a web search. In future, it would be integrated with JARVIS THINGS and control other hardwares using MQTT.<br><br>
+
+HOW TO TRAIN & RUN SERVER
+---------------------------
+1. Fork and clone the project to your repository.
+2. Make sure all the pre-requisites are set.
+3. Train the AI engine by running "trainer.py"
+4. Activate JARVIS BRAIN by running "server.py". <br><br>
 
 
 CONTRIBUTION
