@@ -42,6 +42,8 @@ import classifier
 print(classifier.classify("Who is Sachin Tendulkar"))
 print(classifier.classify("Temperature in New Delhi"))
 
+# subtract 4 from minus 3
+
 # print(math_cal.get_math_evaluation("evaluate 3 square minus 2 cube"))
 # print("#############################  1")
 # print(math_cal.get_math_evaluation("calculate 6 square minus 3 cube plus square of 4 minus cube of 2"))

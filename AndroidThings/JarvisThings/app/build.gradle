@@ -20,7 +20,7 @@ android {
 }
 
 dependencies {
-    provided 'com.google.android.things:androidthings:0.2-devpreview'
+    provided 'com.google.android.things:androidthings:0.3-devpreview'
     compile 'com.android.volley:volley:1.0.0'
     compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.0.2'
 }
