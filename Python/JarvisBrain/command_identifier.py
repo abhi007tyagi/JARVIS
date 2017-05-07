@@ -40,10 +40,10 @@ def execute_song_cmd(tags):
         if word[0] in ["play"]:
             print("PLAY")
             return "PLAY"
-        elif word[0] in ["up", "high", "higher","increase"]:
+        elif word[0] in ["up", "high", "higher", "increase"]:
             print("VOLUME UP")
             return "VOLUME UP"
-        elif word[0] in ["down", "low", "lower","decrease"]:
+        elif word[0] in ["down", "low", "lower", "decrease"]:
             print("VOLUME DOWN")
             return "VOLUME DOWN"
         elif word[0] in ["stop", "off", "OFF", "halt"]:
