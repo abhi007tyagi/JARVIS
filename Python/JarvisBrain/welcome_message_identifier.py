@@ -1,9 +1,9 @@
-import nltk
+﻿import nltk
 
 
 def get_welcome_msg(text, chunked_data):
     p0 = ["hi", "hello", "hey", "yo"]
-    p1 = ["how", "how’ve", "what's up", "doing"]
+    p1 = ["how", "how've", "what's up", "doing"]
     p2 = ["good to see you", "nice to see you"]
     p3 = ["your name", "who's there", "who are you", "your name"]
     p4 = ["i am", "we are"]
